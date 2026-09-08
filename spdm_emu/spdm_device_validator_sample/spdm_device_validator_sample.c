@@ -92,6 +92,9 @@ int main(int argc, char *argv[])
     printf("%s version 0.1\n", "spdm_device_validator_sample");
     srand((unsigned int)time(NULL));
 
+    if (!spdm_device_validator_process_test_group_args(&argc, argv)) {
+        return 2;
+    }
     process_args("spdm_device_validator_sample", argc, argv);
 
     /* Use custom port if provided, otherwise default to 2323 */
