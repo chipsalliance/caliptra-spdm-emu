@@ -119,6 +119,19 @@ jobs:
           cmake -E env CFLAGS="-DLIBSPDM_DEBUG_LIBSPDM_ASSERT_CONFIG=3" cmake -DARCH=x64 -DTOOLCHAIN=GCC -DTARGET=Release -DCRYPTO=openssl ..
           make copy_sample_key
           make -j`nproc`
+      - name: Validator_group_selection_Test
+        run: |
+          cd build/bin
+          ./spdm_device_validator_sample --test-groups VERSION --help |
+            grep -q "Selected test groups: VERSION"
+          if ./spdm_device_validator_sample --test-groups VERSION --test-groups CAPABILITIES; then
+            echo "Duplicate --test-groups unexpectedly succeeded"
+            exit 1
+          fi
+          if ./spdm_device_validator_sample --test-groups VERSION,UNKNOWN; then
+            echo "Unknown validator group unexpectedly succeeded"
+            exit 1
+          fi
       - name: Emu_Test
         run: |
           cd build/bin

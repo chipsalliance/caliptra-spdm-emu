@@ -23,4 +23,6 @@
 
 extern common_test_suite_config_t m_spdm_responder_validator_config;
 
+bool spdm_device_validator_process_test_group_args(int *argc, char *argv[]);
+
 #endif
